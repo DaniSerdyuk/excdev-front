@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/app.dockerfile
+    container_name: front
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/var/www/excdev
+    restart: unless-stopped

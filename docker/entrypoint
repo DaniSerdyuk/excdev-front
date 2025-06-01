@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -xe
+
+if [ ! -d "/var/www/excdev/node_modules" ]; then
+    npm i
+fi
+
+exec npm run dev
