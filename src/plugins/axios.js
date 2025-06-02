@@ -44,7 +44,7 @@ function requestInterceptors() {
  * @returns {string}
  */
 function getErrorMessage(error) {
-  return error.response ? error.response.data.error.error_message : error.message;
+  return error.response ? error.response.data.error.message : error.message;
 }
 
 /**
@@ -54,9 +54,19 @@ function responseInterceptors() {
   axios.interceptors.response.use(
     (response) => response,
     async (error) => {
+      const config = error.config;
+
+      if (config.skip) {
+        return Promise.reject(error);
+      }
+
       const message = getErrorMessage(error);
 
-      if (error.response && (error.response.status === 401 || error.response.status === 419)) {
+      if (
+        !config.skipLogout &&
+        error.response &&
+        (error.response.status === 401 || error.response.status === 419)
+      ) {
         await clearAndMoveToLogin();
       }
 

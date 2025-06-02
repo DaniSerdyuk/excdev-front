@@ -15,9 +15,11 @@ export function getTokenFromLocalStorage() {
 }
 
 export function login(params) {
-  return axios.post('/api/auth/login', params).then((response) => response.data);
+  return axios
+    .post('/api/auth/login', params, { skipLogout: true })
+    .then((response) => response.data);
 }
 
 export function logout() {
-  return axios.post('/api/auth/logout');
+  return axios.post('/api/auth/logout', {}, { skip: true });
 }
